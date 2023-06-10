@@ -27,4 +27,4 @@ jobs:
         run: ./bin/gopher-cli get 5th-element
       
       - name: Cleanup
-        run: task clean
+        run: task clean && rm -rf ./bin
