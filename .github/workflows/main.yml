@@ -1,1 +1,30 @@
+name: Test CLI
 
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      
+      - name: Install dependencies
+        run: go get .
+      
+      - name: Install task file
+        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+
+      - name: Build
+        run: task build
+
+      - name: Execute CLI command
+        run: ./bin/gopher-cli get 5th-element
+      
+      - name: Cleanup
+        run: task clean
